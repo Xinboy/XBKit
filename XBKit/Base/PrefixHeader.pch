@@ -14,7 +14,6 @@
 
 #import "UIDevice+Type.h"
 
-#import "UIColor+XBCategory.h"
 
 #import "NSString+Regex.h"
 #import "NSString+Encryption.h"

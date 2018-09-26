@@ -6,11 +6,11 @@
 //  Copyright © 2017年 X-Core Co,. All rights reserved.
 //
 
-#import "UIColor+XBCategory.h"
+#import "UIColor+Extension.h"
 
-@implementation UIColor (XBCategory)
+@implementation UIColor (Extension)
 
-+ (UIColor *)XBColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha {
++ (UIColor *)colorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha {
     return [UIColor colorWithRed:red / 255.0 green:green  / 255.0 blue:blue / 255.0 alpha:alpha];
 }
 
@@ -59,7 +59,8 @@
 }
 
 /** 此点区域的色值*/
-+ (UIColor *)colorAtPoint:(CGPoint)point inImage:(UIImage *)image{
++ (UIColor *)colorAtPoint:(CGPoint)point inImage:(UIImage *)image {
+    
     // Cancel if point is outside image coordinates
     if (!CGRectContainsPoint(CGRectMake(0, 0, image.size.width, image.size.height), point)) {
         return nil;

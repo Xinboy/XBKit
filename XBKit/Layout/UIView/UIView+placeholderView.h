@@ -15,7 +15,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^reloadButtonAction)();
+typedef void(^reloadButtonAction)(void);
 
 @interface UIView (placeholderView)
 
@@ -26,9 +26,12 @@ typedef NS_ENUM(NSInteger, PlaceholderViewType) {
     /** 其他 */
     PlaceholderViewTypeOther
 };
-//(void (^)())
+
+
 - (void)showPlaceholerViewWithType:(PlaceholderViewType)type reloadBlock:(reloadButtonAction)reloadBlock;
 
-//- (void)removePlaceholderView;
+- (void)showPlaceholderView;
+
+- (void)removePlaceholderView;
 
 @end

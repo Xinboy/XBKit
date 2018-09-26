@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIColor (XBCategory)
+@interface UIColor (Extension)
 
-+ (UIColor *)XBColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
++ (UIColor *)colorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
 
 /**
  十六进制整型与透明度组合转颜色
@@ -49,7 +49,7 @@
 + (UIColor *)colorWithHexString:(NSString *)hexString;
 
 /**
- 识别点击位置的颜色
+ 识别点击图片位置的颜色
  
  @param point 点击坐标
  @return 颜色

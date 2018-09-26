@@ -17,6 +17,11 @@ typedef NS_ENUM(NSInteger, CircleHeading) {
 
 @interface UIImage (Extension)
 /**
+ 图片按照一个半径裁剪左右边框
+ */
+- (UIImage *)imageWithCornerRadius:(CGFloat)radius;
+
+/**
  重新设定图片大小
  */
 + (UIImage *)resizableImage:(NSString *)imageName top:(CGFloat)top bottom:(CGFloat)bottom left:(CGFloat)left right:(CGFloat)right;
@@ -30,11 +35,6 @@ typedef NS_ENUM(NSInteger, CircleHeading) {
  根据颜色生成纯色圆角图片
  */
 + (UIImage *)imageWithCornerRadiusSize:(CGSize)size BackgroundColor:(UIColor *)color;
-
-/**
- 图片按照一个半径裁剪左右边框
- */
-- (UIImage *)imageWithCornerRadius:(CGFloat)radius;
 
 /**
  图片裁剪成圆形

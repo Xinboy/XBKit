@@ -79,6 +79,21 @@
 
 
 + (PhoneType)phoneTypeWithDevice {
+
+
+#if TARGET_IPHONE_SIMULATOR
+    
+    if (kScreenHeiht() > 812) {
+        return PhoneTypeX;
+    } else if (kScreenHeiht() == 736) {
+        return PhoneTypePlus;
+    } else if (kScreenHeiht() < 568) {
+        return PhoneTypeSE;
+    } else {
+        return PhoneTypeDefualt;
+    }
+#endif
+    
     NSString *modeName = [self stringWithDeviceType];
     if ([modeName containsString:@"Plus"]) {
         return PhoneTypePlus;

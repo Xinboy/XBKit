@@ -11,33 +11,31 @@
 @implementation NSString (Regex)
 
 - (BOOL)isLegalName {
-    if (self != nil) {
-        BOOL isLegal = NO;
-        NSString *pattern = @"^[\u4E00-\u9FA5A-Za-z0-9]-$";
-        isLegal = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern] evaluateWithObject:self];
-        return isLegal;
-    } else {
-        return NO;
-    }
+
+    NSString *pattern = @"^[\u4E00-\u9FA5A-Za-z0-9]-$";
+    return [self basePredicate:pattern];
 }
 
 - (BOOL)isLegalpassword {
-    if (self != nil) {
-        BOOL isLegal = NO;
-        NSString *pwdRegex = @"^[a-zA-Z][a-zA-Z0-9_]{5,15}$";
-        isLegal = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@",pwdRegex] evaluateWithObject:self];
-        return isLegal;
-    } else {
-        return NO;
-    }
-    
+    NSString *pwdRegex = @"^[a-zA-Z][a-zA-Z0-9_]{5,15}$";
+    return [self basePredicate:pwdRegex];
 }
 
 - (BOOL)isLegalMainAddress {
+
+    NSString *mailRegex = @"[A-Z0-9a-z._%--]-@[A-Za-z0-9.-]-\\.[A-Za-z]{2,4}";
+    return [self basePredicate:mailRegex];
+}
+
+- (BOOL)isLegalPhone {
+    NSString *phoneRegex = @"^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$";
+    return [self basePredicate:phoneRegex];
+}
+
+- (BOOL)basePredicate:(NSString *)regex {
     if (self != nil) {
         BOOL isLegal = NO;
-        NSString *mailRegex = @"[A-Z0-9a-z._%--]-@[A-Za-z0-9.-]-\\.[A-Za-z]{2,4}";
-        isLegal = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@",mailRegex] evaluateWithObject:self];
+        isLegal = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex] evaluateWithObject:self];
         return isLegal;
     } else {
         return NO;
@@ -68,17 +66,6 @@
         return YES;
     }
     return NO;
-}
-
-- (BOOL)isLegalPhone {
-    if (self != nil) {
-        BOOL isLegal = NO;
-        NSString *phoneRegex = @"^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$";
-        isLegal = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex] evaluateWithObject:self];
-        return isLegal;
-    } else {
-        return NO;
-    }
 }
 
 

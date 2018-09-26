@@ -92,51 +92,5 @@
  */
 + (void)deleteObject:(NSManagedObject *)object;
 
-#pragma mark - **************** 时间戳相关
-/**
- 时间戳：将当前时间转换为时间戳
- 
- @return 当前时间的时间戳字符串
- */
-+ (NSString *)stringWithTimeStamp;
-
-/**
- 时间戳：根据传入时间字符串转换为时间戳
- 
- @param timeString 时间字符串
- @return 传入时间字符串对应的时间戳
- */
-+ (NSString *)timeStampWithTimeString:(NSString *)timeString;
-
-/**
- 时间戳：根据传入时间戳字符串转换为时间字符串（格式：yyyy-MM-dd HH:mm:ss）
- 
- @param timeStamp 时间戳字符串
- @return 传入 时间戳字符串对应的时间字符串
- */
-+ (NSString *)timeStringWithTimeStmap:(NSString *)timeStamp;
-
-
-#pragma mark - **************** 二维码生成
-
-/**
- 二维码生成（无logo）
- 
- @param string 写入二维码的字符串
- @param imageSide 图片大小
- @return 二维码图片
- */
-+ (UIImage *)qrImageForString:(NSString *)string ImageSide:(CGFloat)imageSide;
-
-
-/**
- 二维码中间添加logo图片
- 
- @param qrImage 二维码图片
- @param logoImage logo图片
- @param logoSide logo大小
- @return 生成的新二维码图片
- */
-+ (UIImage *)qrImage:(UIImage *)qrImage WithAddLogoImage:(UIImage *)logoImage LogoImageSide:(CGFloat)logoSide;
 
 @end

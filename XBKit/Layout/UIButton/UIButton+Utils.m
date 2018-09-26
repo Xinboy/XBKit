@@ -90,7 +90,7 @@ static const CGFloat kDefaultTimeInterval = 0.5;
 }
 
 
-//防止重复点击
+#pragma mark --- 防止重复点击 ---
 - (NSTimeInterval)timeInterval {
     return [objc_getAssociatedObject(self, &kTimeIntervalKey) doubleValue];
 }

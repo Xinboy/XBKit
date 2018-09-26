@@ -6,16 +6,18 @@
 //  Copyright © 2017年 Xinbo Hong. All rights reserved.
 //
 
-#import "UIView+placeholderView2.h"
+#import "UIView+placeholderView.h"
 #import <objc/runtime.h>
+#import "PlaceholderView.h"
 @interface UIView ()
 
 @property (nonatomic, copy) reloadButtonAction reloadButtonAction;
 
-@property (nonatomic, strong) UIView *placeholderView;
+//自定义的蒙版图
+@property (nonatomic, strong) PlaceholderView *placeholderView;
 
 /** 用来记录UIScrollView最初的scrollEnabled */
-@property (nonatomic, assign) BOOL originalScrollEnabled;
+@property (nonatomic, assign, getter=isOriginalScrollEnabled) BOOL originalScrollEnabled;
 
 
 @end
@@ -54,83 +56,47 @@ static void *reloadButtonActionKey = &reloadButtonActionKey;
 }
 
 #pragma mark - **************** 外露接口
+- (void)showPlaceholderView {
+    [self showPlaceholerViewWithType:PlaceholderViewTypeOther reloadBlock:nil];
+}
+
 - (void)showPlaceholerViewWithType:(PlaceholderViewType)type reloadBlock:(reloadButtonAction)reloadBlock {
     if ([self isKindOfClass:[UIScrollView class]]) {
         UIScrollView *scrollView = (UIScrollView *)self;
         self.originalScrollEnabled = scrollView.scrollEnabled;
     }
     
-    [self createPlaceHolderView];
-    
-    self.reloadButtonAction = reloadBlock;
-    
-    NSArray *subViewsArray = [self.placeholderView subviews];
-    UIImageView *imageView = nil;
-    UILabel *label = nil;
-    for (id view in subViewsArray) {
-        if ([view isMemberOfClass:[UIImageView class]]) {
-            imageView = (UIImageView *)view;
-            continue;
-        }
-        if ([view isMemberOfClass:[UILabel class]]) {
-            label = (UILabel *)view;
-            continue;
-        }
-    }
-    switch (type) {
-        case PlaceholderViewTypeNoNetwork: {
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"无商品" ofType:@"png"];
-            imageView.image = [UIImage imageWithContentsOfFile:path];
-            label.text = NSLocalizedString(@"一点网络都没有，这怎么玩呀", nil);
-            break;
-        }
-        case PlaceholderViewTypeOther: {
-            label.text = NSLocalizedString(@"未知错误", nil);
-            break;
-        }
+    if ([self isKindOfClass:[UIScrollView class]]) {
+        UIScrollView *scrollView = (UIScrollView *)self;
+        self.originalScrollEnabled = scrollView.scrollEnabled;
+        scrollView.scrollEnabled = NO;
     }
     
-}
-
-#pragma mark - **************** 外露接口，内部实现部分
-- (void)placeholderViewReloadButtonAction:(UIButton *)button {
-    if (self.reloadButtonAction) {
-        self.reloadButtonAction();
+    /** 占位图*/
+    if (self.placeholderView) {
+        [self.placeholderView removeFromSuperview];
+        self.placeholderView = nil;
     }
-    [self removePlaceholderView];
-}
-
-- (void)createPlaceHolderView {
-    self.placeholderView = [[UIView alloc] init];
+    self.placeholderView = [[PlaceholderView alloc] init];
+    self.placeholderView.backgroundColor = self.backgroundColor;
+    
     [self addSubview:self.placeholderView];
-    self.placeholderView.frame = CGRectMake(0, 0, CGRectGetWidth(self.placeholderView.superview.frame), CGRectGetHeight(self.placeholderView.superview.frame));
-    self.placeholderView.center = self.placeholderView.superview.center;
-    self.placeholderView.backgroundColor = [UIColor whiteColor];
     
-    NSLog(@"%@",NSStringFromCGRect(self.frame));
-    NSLog(@"%@",NSStringFromCGRect(self.placeholderView.superview.frame));
+    /*使用 frame 或 masonry 根据实际项目进行选择*/
+    self.placeholderView.frame = self.bounds;
+//    [self.placeholderView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.center.equalTo(self);
+//        make.size.equalTo(self);
+//    }];
     
-    UIImageView *imageView = [[UIImageView alloc] init];
-    [self.placeholderView addSubview:imageView];
-    imageView.frame = CGRectMake(0, 0, 70, 70);
-    imageView.center = CGPointMake(imageView.superview.center.x, imageView.superview.center.y - 80);
+    if (reloadBlock) {
+        self.reloadButtonAction = reloadBlock;
+    }
     
-    UILabel *desLabel = [[UILabel alloc] init];
-    [self.placeholderView addSubview:desLabel];
-    desLabel.frame = CGRectMake(0, CGRectGetMaxY(imageView.frame) + 20, CGRectGetWidth(desLabel.superview.frame), 20);
-    desLabel.textColor = [UIColor blackColor];
-    desLabel.textAlignment = NSTextAlignmentCenter;
-    
-    UIButton *reloadButton = [[UIButton alloc] init];
-    [self.placeholderView addSubview:reloadButton];
-    reloadButton.frame = CGRectMake(0, 0, 120, 30);
-    reloadButton.center = CGPointMake(imageView.superview.center.x, CGRectGetMaxY(desLabel.frame) + 40);
-    [reloadButton setTitle:NSLocalizedString(@"重新加载", nil) forState:UIControlStateNormal];
-    [reloadButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    reloadButton.layer.borderWidth = 1.0f;
-    reloadButton.layer.borderColor = [UIColor blackColor].CGColor;
-    [reloadButton addTarget:self action:@selector(placeholderViewReloadButtonAction:) forControlEvents:UIControlEventTouchUpInside];   
+    /*可以在这里根据不同的情况对placeholderView的样式进行更改*/
+    //...
 }
+
 
 - (void)removePlaceholderView {
     if (self.placeholderView) {

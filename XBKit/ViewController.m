@@ -12,7 +12,6 @@
 #import "XBColorSegement.h"
 #import "UIImage+Extension.h"
 #import "UIButton+Utils.h"
-#import "UIColor+XBCategory.h"
 @interface ViewController ()<UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;

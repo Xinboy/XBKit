@@ -139,36 +139,6 @@
 //    [((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext deleteObject:object];
 //}
 
-#pragma mark - **************** 时间戳相关
-//获得时间戳
-+ (NSString *)stringWithTimeStamp {
-    NSDate *date = [NSDate date];
-    return [NSString stringWithFormat:@"%ld",(NSInteger)[date timeIntervalSince1970]];
-}
-//数据库时间字段转时间戳
-+ (NSString *)timeStampWithTimeString:(NSString *)timeString {
-    if (timeString.length > 0) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setTimeZone:[NSTimeZone defaultTimeZone]];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        NSDate *versionData = [formatter dateFromString:timeString];
-        return [NSString stringWithFormat:@"%ld",(NSInteger)[versionData timeIntervalSince1970]];
-    } else {
-        return @"";
-    }
-}
-//时间戳转时间字符串
-+  (NSString *)timeStringWithTimeStmap:(NSString *)timeStamp {
-    if (timeStamp.length > 0) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setTimeZone:[NSTimeZone defaultTimeZone]];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeStamp.integerValue];
-        return [formatter stringFromDate:date];
-    } else {
-        return @"";
-    }
-    
-}
+
 
 @end
